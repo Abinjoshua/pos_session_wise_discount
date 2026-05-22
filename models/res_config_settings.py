@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
+from odoo.exceptions import ValidationError
 
 
 class ResConfigSettings(models.TransientModel):
@@ -10,6 +11,16 @@ class ResConfigSettings(models.TransientModel):
 
     @api.onchange('is_session_discount_limit', 'session_discount_limit')
     def _onchange_is_session_discount_limit(self):
+
+        limit = self.env['ir.config_parameter'].sudo().get_param('pos_session_wise_discount.session_discount_limit')
+        total = 0
+        pos_sessions = self.env['pos.session'].search([('state', '=', 'opened')])
+
         if self.is_session_discount_limit:
-            limit = self.env['ir.config_parameter'].sudo().get_param('pos_session_wise_discount.session_discount_limit')
-            print(limit)
+            for session in pos_sessions:
+                total += sum(session.order_ids.lines.mapped('discount'))
+        print(total)
+        # if total < float(limit):
+        #     raise ValidationError('Discount limit reached.')
+#
+
