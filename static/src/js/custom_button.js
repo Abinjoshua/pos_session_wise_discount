@@ -9,5 +9,6 @@ patch(ControlButtons.prototype, {
            body: _t("Your custom Message is here"),
            confirmLabel: _t("Confirm"),
        });
+       // console.log(this)
    },
 });

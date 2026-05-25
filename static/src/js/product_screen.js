@@ -1,11 +1,13 @@
-import { ProductScreen } from "@point_of_sale/app/screens/product_screen/product_screen";
+/** @odoo-module */
+import { OrderSummary } from "@point_of_sale/app/screens/product_screen/order_summary/order_summary";
 import { patch } from "@web/core/utils/patch";
 
-patch(ProductScreen.prototype, {
-    getNumpadButtons() {
-        const buttons = super.getNumpadButtons();
-        if (!this.currentOrder?.getSelectedOrderline()?.isDiscountLine) {
-            return buttons;
-        }
-    },
+patch(OrderSummary.prototype, {
+    get DiscountLimit() {
+        let discount_sum = 0;
+        this.pos.getOrder().getOrderlines().forEach(line => discount_sum += line.prices.discount_amount);
+        console.log(this.pos)
+
+        return discount_sum;
+    }
 });
