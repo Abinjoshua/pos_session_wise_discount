@@ -16,8 +16,6 @@
     ],
     'assets': {
         'point_of_sale._assets_pos': [
-            # 'pos_session_wise_discount/static/src/xml/order_summary.xml',
-            # 'pos_session_wise_discount/static/src/js/order_summary.js',
             'pos_session_wise_discount/static/src/js/pos_store.js',
         ],
     }
